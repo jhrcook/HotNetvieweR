@@ -1,0 +1,20 @@
+Package: HotNetvieweR
+Type: Package
+Title: Read HotNet2 Results and Convert to Graph object
+Version: 0.0.0.9000
+Author: person(c("Joshua", "H"), "Cook", email = "joshuacook0023@gmail.com",
+    role = c("aut", "cre"))
+Description: This package reads the results from HotNet2 for further analysis.
+    It can return the results as a list of list of genes or transform them into
+    `igraph` or `tidygraph` objects.
+License: file LICENSE
+Encoding: UTF-8
+LazyData: true
+Depends: R (>= 3.5.0)
+Imports:
+    dplyr (>= 0.8.0),
+    ggplot2 (>= 3.1.0),
+    magrittr (>= 1.5.0),
+    purrr (>= 0.3.0),
+    rlang (>= 0.3.0),
+    tibble(>= 2.0.0)
