@@ -2,13 +2,15 @@ Package: HotNetvieweR
 Type: Package
 Title: Read HotNet2 Results and Convert to Graph object
 Version: 0.0.0.9000
-Author: person(c("Joshua", "H"), "Cook", email = "joshuacook0023@gmail.com",
-    role = c("aut", "cre"))
+Authors@R: person(c("Joshua", "H"), "Cook", email = "joshuacook0023@gmail.com",
+    role = c("aut", "cre"),
+    comment = c(ORCID = "0000-0001-9815-6879"))
+URL: https://github.com/jhrcook/ggasym https://jhrcook.github.io/HotNetvieweR/
 Maintainer: Joshua Cook <joshuacook0023@gmail.com>
 Description: This package reads the results from HotNet2 for further analysis.
     It can return the results as a list of list of genes or transform them into
     `igraph` or `tidygraph` objects.
-License: file LICENSE
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Depends: R (>= 3.5.0)
