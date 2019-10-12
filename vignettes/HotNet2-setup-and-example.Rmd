@@ -18,28 +18,58 @@ knitr::opts_chunk$set(
 library(HotNetvieweR)
 ```
 
+This package was made to bridge the gap between the raw output of HotNet2 and further visualization and analysis.
+This vignette describes how I ran the example provided by the [Raphael group](http://compbio.cs.brown.edu) on the [HotNet2 GitHub repository](https://github.com/raphael-group/hotnet2).
 
-swetup
+## Setup
+
+The first step is to clone the HotNet2 repository from GitHub and set-up the environment to use it in.
+
+I began by making a specific directory for this example analysis.
 
 ```bash
 mkdir HotNet2_example
 cd HotNet2_example
+```
 
+I then cloned the GitHub repository.
+
+```bash
 git clone https://github.com/raphael-group/hotnet2.git
+```
 
+The HotNet2 tool was written in Python 2.7.
+Therefore, I setup a virtual environment, activated it, and then installed the necessary libraries (listed in the "requirements.txt" file).
+
+```
+# create virtual environment
 virtualenv venv-hotnet2
+
+# activate virtual environment
 source venv-hotnet2/bin/activate
 
+# install the libraries for HotNet2
 cd hotnet2
 pip install -r requirements.txt
+```
 
-# the following produced quite a few warnings, but completed successfully
+To increase the speed of using HotNet2, the team implemented some of the algorithms (namely the edge-swapping algorithm) in Fortran and C.
+These two commands pre-compile the code.
+They produce a few warnings, but no errors.
+
+```
 python hotnet2/setup_fortran.py build_src build_ext --inplace
 python hotnet2/setup_c.py build_src build_ext --inplace
 ```
 
 
-make heat file
+## Heat Files
+
+The heat files contains the starting "heat" for each node. 
+The input data needs to follow the correct format, so make sure to take a look at ["hotnet2/example/example.heat"](https://github.com/raphael-group/hotnet2/blob/master/example/example.heat) to see what it should look like.
+
+The heat file is first transformed into a JSON in a specific format for HotNet2.
+This uses the `makeHeatFile.py` file; the help information is shown below.
 
 ```bash
 python makeHeatFile.py --help
@@ -59,6 +89,10 @@ python makeHeatFile.py --help
 #>     mutsig              MutSig scores
 #>     music               MuSiC scores
 ```
+
+The `makeHeatFile.py` script can take several types of input.
+Here, I will demonstrate two of them.
+The first is `scores`; below is the help information.
 
 ```bash
 python makeHeatFile.py scores --help
@@ -86,6 +120,7 @@ python makeHeatFile.py scores --help
 #>                         scores will be discarded.
 ```
 
+Using the above information, I wrote the following command to make the JSON heat file from "example/example.heat" and saved it to "example_run/heatfiles/scores_heatfile.json".
 
 ```bash
 python makeHeatFile.py scores \
@@ -95,6 +130,8 @@ python makeHeatFile.py scores \
 
 #> * Loading heat scores for 25 genes
 ```
+
+Here it was the resulting JSON looked like.
 
 ```txt
 {
@@ -135,6 +172,8 @@ python makeHeatFile.py scores \
     }
 }
 ```
+
+Below, I show the help information and the command I used to create a help file using CNA and SNV information.
 
 ```bash
 python makeHeatFile.py mutation --help
@@ -207,8 +246,13 @@ python makeHeatFile.py mutation \
 ```
 
 
+## Network Files
 
-## Make network file
+The next step is to prepare the real and permuted network files using `makeNetworkFiles.py`.
+Note that this step can take a very long time on a personal computer and a real PPI.
+This example data only takes a few seconds to run, though.
+
+Below I show the help information for the `makeNetworkFiles.py` script.
 
 ```bash
 python makeNetworkFiles.py --help
@@ -255,6 +299,11 @@ python makeNetworkFiles.py --help
 #>                         Use given number of cores. Pass -1 to use all
 #>                         available.
 ```
+
+I then use it on the two provided edge lists, "example/example_edgelist.txt" and "example/example_edgelist2.txt".
+The output of each are saved to different directories.
+Note that I just used 0.5 for the `beta` without trying different values.
+There is method for programmatically deciding on a value for the $\beta$ of the RWR (described in the paper's Supplementary), though it doesn't seem to be too important to get a high-precision value (judging from personal experience and the author's comments in the Supplementary).
 
 ```bash
 python makeNetworkFiles.py \
@@ -312,6 +361,7 @@ python makeNetworkFiles.py \
 #>100/100%
 ```
 
+Here is what the file structure for the first network looks like.
 
 ```bash
 ll example_run/network1
@@ -323,6 +373,9 @@ ll example_run/network1
 
 
 ## Run HotNet2
+
+Running HotNet2 is done using the `HotNet2.py` script.
+Below is the help information.
 
 ```bash
 python HotNet2.py --help
@@ -390,6 +443,10 @@ python HotNet2.py --help
 #>                         Set verbosity of output (minimum: 0, maximum: 5).
 ```
 
+The first run of HotNet2 that I show in this vignette just runs one heat file on one network.
+This is the simplest use-case for HotNet2.
+It is likely to be satisfactory for most users.
+
 ```bash
 python HotNet2.py \
   --network_files example_run/network1/network1_ppr_0.5.h5 \
@@ -405,6 +462,8 @@ python HotNet2.py \
 #> * Generating and outputting visualization data...
 ```
 
+The second example run, shown below, runs two heat files on two networks.
+HotNet2 then creates a "consensus" output for the two networks.
 
 ```bash
 python HotNet2.py \
@@ -429,3 +488,98 @@ python HotNet2.py \
 ```
 
 
+## Output File Structure
+
+Here is a diagram showing the file structure for the simple output.
+
+```bash
+#> tree example_run/output_simple
+#> example_run/output_simple
+#> ├── consensus
+#> │   ├── stats.tsv
+#> │   ├── subnetworks.json
+#> │   ├── subnetworks.tsv
+#> │   └── viz-data.json
+#> └── network1-mutationsheat
+#>     ├── delta_0.007907676044851542
+#>     │   ├── components.txt
+#>     │   ├── results.json
+#>     │   └── significance.txt
+#>     ├── delta_1.024861412588507e-05
+#>     │   ├── components.txt
+#>     │   ├── results.json
+#>     │   └── significance.txt
+#>     └── viz-data.json
+#> 
+#> 4 directories, 11 files
+```
+
+The output for the run with multiple networks is similar in structure but there are more files.
+
+```bash
+tree example_run/output_consensus
+#> example_run/output_consensus
+#> ├── consensus
+#> │   ├── stats.tsv
+#> │   ├── subnetworks.json
+#> │   ├── subnetworks.tsv
+#> │   └── viz-data.json
+#> ├── network1-mutationsheat
+#> │   ├── delta_0.007907676044851542
+#> │   │   ├── components.txt
+#> │   │   ├── results.json
+#> │   │   └── significance.txt
+#> │   ├── delta_1.024861412588507e-05
+#> │   │   ├── components.txt
+#> │   │   ├── results.json
+#> │   │   └── significance.txt
+#> │   └── viz-data.json
+#> ├── network1-scoresheat
+#> │   ├── delta_0.03640584065578878
+#> │   │   ├── components.txt
+#> │   │   ├── results.json
+#> │   │   └── significance.txt
+#> │   ├── delta_0.04944752808660269
+#> │   │   ├── components.txt
+#> │   │   ├── results.json
+#> │   │   └── significance.txt
+#> │   ├── delta_0.052240293473005295
+#> │   │   ├── components.txt
+#> │   │   ├── results.json
+#> │   │   └── significance.txt
+#> │   ├── delta_0.10117589682340622
+#> │   │   ├── components.txt
+#> │   │   ├── results.json
+#> │   │   └── significance.txt
+#> │   └── viz-data.json
+#> ├── network2-mutationsheat
+#> │   ├── delta_0.005027415044605733
+#> │   │   ├── components.txt
+#> │   │   ├── results.json
+#> │   │   └── significance.txt
+#> │   ├── delta_5.711058292945381e-06
+#> │   │   ├── components.txt
+#> │   │   ├── results.json
+#> │   │   └── significance.txt
+#> │   └── viz-data.json
+#> └── network2-scoresheat
+#>     ├── delta_0.051236389204859734
+#>     │   ├── components.txt
+#>     │   ├── results.json
+#>     │   └── significance.txt
+#>     ├── delta_0.05293082073330879
+#>     │   ├── components.txt
+#>     │   ├── results.json
+#>     │   └── significance.txt
+#>     ├── delta_0.05503008887171745
+#>     │   ├── components.txt
+#>     │   ├── results.json
+#>     │   └── significance.txt
+#>     ├── delta_0.10069134272634983
+#>     │   ├── components.txt
+#>     │   ├── results.json
+#>     │   └── significance.txt
+#>     └── viz-data.json
+#> 
+#> 17 directories, 44 files
+```

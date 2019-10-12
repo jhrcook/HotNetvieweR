@@ -17,6 +17,8 @@ Depends: R (>= 3.5.0)
 Suggests: 
     knitr,
     rmarkdown,
-    covr
+    covr,
+    spelling
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1
+Language: en-US
