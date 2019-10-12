@@ -2,17 +2,6 @@
 ## Extracting Results from a HotNet2 Run ##
 ###########################################
 
-library(igraph)
-library(tidygraph)
-library(RColorBrewer)
-library(scales)
-library(reshape)
-library(pryr)
-library(data.table)
-library(plyr)
-library(magrittr)
-library(tidyverse)
-
 #### ---- Subroutines ---- ####
 
 # gets the k for a given delta

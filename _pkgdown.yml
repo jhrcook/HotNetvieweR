@@ -1,0 +1,39 @@
+destination: docs
+
+template:
+  params:
+    bootswatch: flatly
+
+navbar:
+  structure:
+    left:
+    - home
+    - intro
+    - reference
+    - articles
+    - tutorials
+    right:
+    - news
+    - github
+    - twitter
+  components:
+    home:
+      icon: fas fa-home fa-lg
+      href: index.html
+    reference:
+      text: Reference
+      href: reference/index.html
+    articles:
+      text: Articles
+      menu:
+      - text: HotNet2 Setup and Example
+        href: articles/HotNet2-setup-and-example.html
+    news:
+      text: Versions
+      href: news/index.html
+    github:
+      icon: fa-github fa-lg
+      href: https://github.com/jhrcook/ggasym
+    twitter:
+      icon: fab fa-twitter fa-lg
+      href: https://twitter.com/JoshDoesa

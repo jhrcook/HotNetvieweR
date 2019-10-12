@@ -1,23 +1,49 @@
 ---
-title: "README.Rmd"
-author: "Joshua H. Cook"
-date: "2/22/2019"
-output:
-  md_document:
-    variant: markdown_github
+output: github_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
 ```
 
 # HotNetvieweR
 
-**author: Joshua H. Cook**
-
-**date: 2019-02-22**
-
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+<!-- badges: start -->
 ![CRAN_Release_Badge](http://www.r-pkg.org/badges/version/HotNetvieweR)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)  
+[![Travis build status](https://travis-ci.org/jhrcook/HotNetvieweR.svg?branch=master)](https://travis-ci.org/jhrcook/HotNetvieweR)
+[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/jhrcook/HotNetvieweR?branch=master&svg=true)](https://ci.appveyor.com/project/jhrcook/HotNetvieweR)
+[![Codecov test coverage](https://codecov.io/gh/jhrcook/HotNetvieweR/branch/master/graph/badge.svg)](https://codecov.io/gh/jhrcook/HotNetvieweR?branch=master)
+<!-- badges: end -->
 
-Just started this package, but I have most of the pieces from my personal use. Should be able to get this up soon.
+The goal of HotNetvieweR is to ...
+
+## Installation
+
+You can install the released version of HotNetvieweR from [CRAN](https://CRAN.R-project.org) with:
+
+``` r
+install.packages("HotNetvieweR")
+```
+
+And the development version from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("jhrcook/HotNetvieweR")
+```
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+```{r example, eval=FALSE}
+library(HotNetvieweR)
+## basic example code
+```

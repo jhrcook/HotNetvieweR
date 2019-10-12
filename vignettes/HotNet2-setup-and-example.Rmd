@@ -1,0 +1,431 @@
+---
+title: "HotNet2 Setup and Example"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{HotNet2-setup-and-example}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(HotNetvieweR)
+```
+
+
+swetup
+
+```bash
+mkdir HotNet2_example
+cd HotNet2_example
+
+git clone https://github.com/raphael-group/hotnet2.git
+
+virtualenv venv-hotnet2
+source venv-hotnet2/bin/activate
+
+cd hotnet2
+pip install -r requirements.txt
+
+# the following produced quite a few warnings, but completed successfully
+python hotnet2/setup_fortran.py build_src build_ext --inplace
+python hotnet2/setup_c.py build_src build_ext --inplace
+```
+
+
+make heat file
+
+```bash
+python makeHeatFile.py --help
+
+#> usage: makeHeatFile.py [-h] {scores,mutation,oncodrive,mutsig,music} ...
+#> 
+#> Generates a JSON heat file for input to runHotNet2.
+#> 
+#> optional arguments:
+#>   -h, --help            show this help message and exit
+#> 
+#> Heat score type:
+#>   {scores,mutation,oncodrive,mutsig,music}
+#>     scores              Pre-computed heat scores
+#>     mutation            Mutation data
+#>     oncodrive           Oncodrive scores
+#>     mutsig              MutSig scores
+#>     music               MuSiC scores
+```
+
+```bash
+python makeHeatFile.py scores --help
+
+#> usage: makeHeatFile.py scores [-h] [-o OUTPUT_FILE] [-n NAME] -hf HEAT_FILE
+#>                               [-ms MIN_HEAT_SCORE] [-gff GENE_FILTER_FILE]
+#> 
+#> optional arguments:
+#>   -h, --help            show this help message and exit
+#>   -o OUTPUT_FILE, --output_file OUTPUT_FILE
+#>                         Output file. If none given, output will be written to
+#>                         stdout.
+#>   -n NAME, --name NAME  Name/Label describing the heat scores.
+#>   -hf HEAT_FILE, --heat_file HEAT_FILE
+#>                         Path to a tab-separated file containing a gene name in
+#>                         the first column and the heat score for that gene in
+#>                         the second column of each line.
+#>   -ms MIN_HEAT_SCORE, --min_heat_score MIN_HEAT_SCORE
+#>                         Minimum heat score for genes to have their original
+#>                         heat score in the resulting output file. Genes with
+#>                         score below this value will be assigned score 0.
+#>   -gff GENE_FILTER_FILE, --gene_filter_file GENE_FILTER_FILE
+#>                         Path to file listing genes whose heat scores should be
+#>                         preserved, one per line. If present, all other heat
+#>                         scores will be discarded.
+```
+
+
+```bash
+python makeHeatFile.py scores \
+  --heat_file example/example.heat \
+  --name scoresheat \
+  --output_file example_run/heatfiles/scores_heatfile.json
+
+#> * Loading heat scores for 25 genes
+```
+
+```txt
+{
+    "heat": {
+        "gene8": 4.0,
+        "gene9": 2.0,
+        "gene1": 15.0,
+        "gene2": 6.0,
+        "gene3": 5.0,
+        "gene4": 1.0,
+        "gene5": 3.0,
+        "gene6": 2.0,
+        "gene7": 1.0,
+        "gene12": 1.0,
+        "gene13": 1.0,
+        "gene10": 5.0,
+        "gene11": 1.0,
+        "gene16": 1.0,
+        "gene17": 1.0,
+        "gene14": 1.0,
+        "gene15": 1.0,
+        "gene18": 1.0,
+        "gene19": 1.0,
+        "gene23": 1.0,
+        "gene22": 1.0,
+        "gene21": 1.0,
+        "gene20": 1.0,
+        "gene25": 1.0,
+        "gene24": 1.0
+    },
+    "parameters": {
+        "name": "HN2example",
+        "gene_filter_file": null,
+        "heat_file": "example/example.heat",
+        "output_file": "example/example_heatfile.json",
+        "min_heat_score": 0,
+        "heat_fn": "load_direct_heat"
+    }
+}
+```
+
+```bash
+python makeHeatFile.py mutation --help
+
+#> usage: makeHeatFile.py mutation [-h] [-o OUTPUT_FILE] [-n NAME] --snv_file
+#>                                 SNV_FILE [--cna_file CNA_FILE]
+#>                                 [--sample_file SAMPLE_FILE]
+#>                                 [--sample_type_file SAMPLE_TYPE_FILE]
+#>                                 [--gene_file GENE_FILE] [--min_freq MIN_FREQ]
+#>                                 [--cna_filter_threshold CNA_FILTER_THRESHOLD]
+#> 
+#> optional arguments:
+#>   -h, --help            show this help message and exit
+#>   -o OUTPUT_FILE, --output_file OUTPUT_FILE
+#>                         Output file. If none given, output will be written to
+#>                         stdout.
+#>   -n NAME, --name NAME  Name/Label describing the heat scores.
+#>   --snv_file SNV_FILE   Path to a tab-separated file containing SNVs where the
+#>                         first column of each line is a sample ID and
+#>                         subsequent columns contain the names of genes with
+#>                         SNVs in that sample. Lines starting with "#" will be
+#>                         ignored.
+#>   --cna_file CNA_FILE   Path to a tab-separated file containing CNAs where the
+#>                         first column of each line is a sample ID and
+#>                         subsequent columns contain gene names followed by
+#>                         "(A)" or "(D)" indicating an amplification or deletion
+#>                         in that gene for the sample. Lines starting with "#"
+#>                         will be ignored.
+#>   --sample_file SAMPLE_FILE
+#>                         File listing samples. Any SNVs or CNAs in samples not
+#>                         listed in this file will be ignored. If HotNet is run
+#>                         with mutation permutation testing, all samples in this
+#>                         file will be eligible for random mutations even if the
+#>                         sample did not have any mutations in the real data. If
+#>                         not provided, the set of samples is assumed to be all
+#>                         samples that are provided in the SNV or CNA data.
+#>   --sample_type_file SAMPLE_TYPE_FILE
+#>                         File listing type (e.g. cancer, datasets, etc.) of
+#>                         samples (see --sample_file). Each line is a space-
+#>                         separated row listing one sample and its type. The
+#>                         sample types are used for creating the HotNet(2) web
+#>                         output.
+#>   --gene_file GENE_FILE
+#>                         File listing tested genes. SNVs or CNAs in genes not
+#>                         listed in this file will be ignored. If HotNet is run
+#>                         with mutation permutation testing, every gene in this
+#>                         file will be eligible for random mutations even if the
+#>                         gene did not have mutations in any samples in the
+#>                         original data. If not provided, the set of tested
+#>                         genes is assumed to be all genes that have mutations
+#>                         in either the SNV or CNA data.
+#>   --min_freq MIN_FREQ   The minimum number of samples in which a gene must
+#>                         have an SNV to be considered mutated in the heat score
+#>                         calculation.
+#>   --cna_filter_threshold CNA_FILTER_THRESHOLD
+#>                         Proportion of CNAs in a gene across samples that must
+#>                         share the same CNA type in order for the CNAs to be
+#>                         included. This must either be > .5, or the default,
+#>                         None, in which case all CNAs will be included.
+```
+
+```bash
+python makeHeatFile.py mutation \
+  --snv_file example/example.snv \
+  --cna_file example/example.cna \
+  --name mutationsheat \
+  --output_file example_run/heatfiles/mutations_heatfile.json
+
+#> * Calculating heat scores for 9 genes in 10 samples at min frequency 1
+```
+
+
+
+## Make network file
+
+```bash
+python makeNetworkFiles.py --help
+
+#> usage: makeNetworkFiles.py [-h] -e EDGELIST_FILE -i GENE_INDEX_FILE -nn
+#>                            NETWORK_NAME -p PREFIX [-is INDEX_FILE_START_INDEX]
+#>                            -b BETA [-op] [-q Q] [-ps PERMUTATION_START_INDEX]
+#>                            [-np NUM_PERMUTATIONS] -o OUTPUT_DIR [-c CORES]
+#> 
+#> Create the personalized pagerank matrix and 100 permuted PPR matrices for
+#> thegiven network and restart probability beta.
+#> 
+#> optional arguments:
+#>   -h, --help            show this help message and exit
+#>   -e EDGELIST_FILE, --edgelist_file EDGELIST_FILE
+#>                         Path to TSV file listing edges of the interaction
+#>                         network, whereeach row contains the indices of two
+#>                         genes that are connected in thenetwork.
+#>   -i GENE_INDEX_FILE, --gene_index_file GENE_INDEX_FILE
+#>                         Path to tab-separated file containing an index in the
+#>                         first columnand the name of the gene represented at
+#>                         that index in the secondcolumn of each line.
+#>   -nn NETWORK_NAME, --network_name NETWORK_NAME
+#>                         Name of network.
+#>   -p PREFIX, --prefix PREFIX
+#>                         Output prefix.
+#>   -is INDEX_FILE_START_INDEX, --index_file_start_index INDEX_FILE_START_INDEX
+#>                         Minimum index in the index file.
+#>   -b BETA, --beta BETA  Beta is the restart probability for the insulated heat
+#>                         diffusion process.
+#>   -op, --only_permutations
+#>                         Only permutations, i.e., do not generate influence
+#>                         matrix forobserved data. Useful for generating
+#>                         permuted network files onmultiple machines.
+#>   -q Q, --Q Q           Edge swap constant. The script will attempt Q*|E| edge
+#>                         swaps
+#>   -ps PERMUTATION_START_INDEX, --permutation_start_index PERMUTATION_START_INDEX
+#>                         Index at which to start permutation file names.
+#>   -np NUM_PERMUTATIONS, --num_permutations NUM_PERMUTATIONS
+#>                         Number of permuted networks to create.
+#>   -o OUTPUT_DIR, --output_dir OUTPUT_DIR
+#>                         Output directory.
+#>   -c CORES, --cores CORES
+#>                         Use given number of cores. Pass -1 to use all
+#>                         available.
+```
+
+```bash
+python makeNetworkFiles.py \
+  --edgelist_file example/example_edgelist.txt \
+  --gene_index_file example/example_gene_index.txt \
+  --network_name network1 \
+  --prefix network1 \
+  --beta 0.5 \
+  --num_permutations 100 \
+  --output_dir example_run/network1 \
+  --cores 1
+
+#> Creating PPR matrix for real network
+#> --------------------------------------
+#> 
+#> Creating edge lists for permuted networks
+#> -------------------------------------------
+#> * Loading edge list..
+#> 	- 31 edges among 25 nodes.
+#> 	- No. swaps to attempt = 3565.0
+#> * Creating permuted networks...
+#> 100/100
+#> * Avg. No. Swaps Made: 1842
+#> 
+#> Creating PPR matrices for permuted networks
+#> ---------------------------------------------
+#> 100/100%
+```
+
+```bash
+python makeNetworkFiles.py \
+  --edgelist_file example/example_edgelist2.txt \
+  --gene_index_file example/example_gene_index.txt \
+  --network_name network2 \
+  --prefix network2 \
+  --beta 0.5 \
+  --num_permutations 100 \
+  --output_dir example_run/network2 \
+  --cores 1
+
+#>Creating PPR matrix for real network
+#>--------------------------------------
+#>
+#>Creating edge lists for permuted networks
+#>-------------------------------------------
+#>* Loading edge list..
+#>	- 30 edges among 25 nodes.
+#>	- No. swaps to attempt = 3450.0
+#>* Creating permuted networks...
+#>100/100
+#>* Avg. No. Swaps Made: 1820
+#>
+#>Creating PPR matrices for permuted networks
+#>---------------------------------------------
+#>100/100%
+```
+
+
+```bash
+ll example_run/network1
+
+#> total 32
+#> -rw-r--r--    1 admin  staff    12K Oct 12 18:02 network1_ppr_0.5.h5
+#> drwxr-xr-x  202 admin  staff   6.3K Oct 12 18:02 permuted
+```
+
+
+## Run HotNet2
+
+```bash
+python HotNet2.py --help
+
+#> usage: HotNet2.py [-h] -nf [NETWORK_FILES [NETWORK_FILES ...]] -pnp
+#>                   [PERMUTED_NETWORK_PATHS [PERMUTED_NETWORK_PATHS ...]] -hf
+#>                   [HEAT_FILES [HEAT_FILES ...]] [-ccs MIN_CC_SIZE]
+#>                   [-d [DELTAS [DELTAS ...]]] [-np NETWORK_PERMUTATIONS]
+#>                   [-cp CONSENSUS_PERMUTATIONS] [-hp HEAT_PERMUTATIONS] -o
+#>                   OUTPUT_DIRECTORY [-c NUM_CORES] [-dsf DISPLAY_SCORE_FILE]
+#>                   [-dnf DISPLAY_NAME_FILE] [--output_hierarchy]
+#>                   [--verbose {0,1,2,3,4}]
+#> 
+#> Helper script for simple runs of generalized HotNet2, including
+#> automatedparameter selection.
+#> 
+#> optional arguments:
+#>   -h, --help            show this help message and exit
+#>   -nf [NETWORK_FILES [NETWORK_FILES ...]], --network_files [NETWORK_FILES [NETWORK_FILES ...]]
+#>                         Path to HDF5 (.h5) file containing influence matrix
+#>                         and edge list.
+#>   -pnp [PERMUTED_NETWORK_PATHS [PERMUTED_NETWORK_PATHS ...]], --permuted_network_paths [PERMUTED_NETWORK_PATHS #> [PERMUTED_NETWORK_PATHS ...]]
+#>                         Path to influence matrices for permuted networks, one
+#>                         path per network file. Include ##NUM## in the path to
+#>                         be replaced with the iteration number
+#>   -hf [HEAT_FILES [HEAT_FILES ...]], --heat_files [HEAT_FILES [HEAT_FILES ...]]
+#>                         Path to heat file containing gene names and scores.
+#>                         This can eitherbe a JSON file created by
+#>                         generateHeat.py, in which case the filename must end
+#>                         in .json, or a tab-separated file containing a
+#>                         genename in the first column and the heat score for
+#>                         that gene in thesecond column of each line.
+#>   -ccs MIN_CC_SIZE, --min_cc_size MIN_CC_SIZE
+#>                         Minimum size connected components that should be
+#>                         returned.
+#>   -d [DELTAS [DELTAS ...]], --deltas [DELTAS [DELTAS ...]]
+#>                         Delta value(s).
+#>   -np NETWORK_PERMUTATIONS, --network_permutations NETWORK_PERMUTATIONS
+#>                         Number of permutations to be used for delta parameter
+#>                         selection.
+#>   -cp CONSENSUS_PERMUTATIONS, --consensus_permutations CONSENSUS_PERMUTATIONS
+#>                         Number of permutations to be used for consensus
+#>                         statistical significance testing.
+#>   -hp HEAT_PERMUTATIONS, --heat_permutations HEAT_PERMUTATIONS
+#>                         Number of permutations to be used for statistical
+#>                         significance testing.
+#>   -o OUTPUT_DIRECTORY, --output_directory OUTPUT_DIRECTORY
+#>                         Output directory. Files results.json, components.txt,
+#>                         andsignificance.txt will be generated in
+#>                         subdirectories for each delta.
+#>   -c NUM_CORES, --num_cores NUM_CORES
+#>                         Number of cores to use for running permutation tests
+#>                         in parallel. If-1, all available cores will be used.
+#>   -dsf DISPLAY_SCORE_FILE, --display_score_file DISPLAY_SCORE_FILE
+#>                         Path to a tab-separated file containing a gene name in
+#>                         the firstcolumn and the display score for that gene in
+#>                         the second column ofeach line.
+#>   -dnf DISPLAY_NAME_FILE, --display_name_file DISPLAY_NAME_FILE
+#>                         Path to a tab-separated file containing a gene name in
+#>                         the firstcolumn and the display name for that gene in
+#>                         the second column ofeach line.
+#>   --output_hierarchy    Output the hierarchical decomposition of the HotNet2
+#>                         similarity matrix.
+#>   --verbose {0,1,2,3,4}
+#>                         Set verbosity of output (minimum: 0, maximum: 5).
+```
+
+```bash
+python HotNet2.py \
+  --network_files example_run/network1/network1_ppr_0.5.h5 \
+  --permuted_network_paths example_run/network1/permuted/network1_ppr_0.5_##NUM##.h5 \
+  --heat_files example_run/heatfiles/mutations_heatfile.json \
+  --output_directory example_run/output_simple \
+  --num_cores 1
+#> /Users/admin/Documents/Python/HotNet2_example/hotnet2/hotnet2/hnio.py:402: H5pyDeprecationWarning: dataset.value has been deprecated. Use dataset[()] instead.
+#>   dictionary = {key:f[key].value for key in f}
+#> * Running HotNet2 in consensus mode...
+#> 	- network1 mutationsheat
+#> * Outputting results to file...
+#> * Generating and outputting visualization data...
+```
+
+
+```bash
+python HotNet2.py \
+  --network_files example_run/network1/network1_ppr_0.5.h5 \
+                  example_run/network2/network2_ppr_0.5.h5 \
+  --permuted_network_paths example_run/network1/permuted/network1_ppr_0.5_##NUM##.h5 \
+                           example_run/network2/permuted/network2_ppr_0.5_##NUM##.h5 \
+  --heat_files example_run/heatfiles/mutations_heatfile.json \
+               example_run/heatfiles/scores_heatfile.json \
+  --output_directory example_run/output_consensus \
+  --num_cores 1
+
+#> /Users/admin/Documents/Python/HotNet2_example/hotnet2/hotnet2/hnio.py:402: H5pyDeprecationWarning: dataset.value has been deprecated. Use dataset[()] instead.
+#>   dictionary = {key:f[key].value for key in f}
+#> * Running HotNet2 in consensus mode...
+#> 	- network1 mutationsheat
+#> 	- network1 scoresheat
+#> 	- network2 mutationsheat
+#> 	- network2 scoresheat
+#> * Outputting results to file...
+#> * Generating and outputting visualization data...
+```
+
+

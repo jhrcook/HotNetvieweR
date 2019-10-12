@@ -39,3 +39,5 @@ inst/doc
 data-raw/*.rds
 .Rhistory
 .Rproj.user
+doc
+Meta
