@@ -5,7 +5,8 @@ Version: 0.0.0.9000
 Authors@R: person(c("Joshua", "H"), "Cook", email = "joshuacook0023@gmail.com",
     role = c("aut", "cre"),
     comment = c(ORCID = "0000-0001-9815-6879"))
-URL: https://github.com/jhrcook/ggasym https://jhrcook.github.io/HotNetvieweR/
+URL: https://jhrcook.github.io/HotNetvieweR/
+BugReports: https://jhrcook.github.io/HotNetvieweR/issues
 Maintainer: Joshua Cook <joshuacook0023@gmail.com>
 Description: This package reads the results from HotNet2 for further analysis.
     It can return the results as a list of list of genes or transform them into

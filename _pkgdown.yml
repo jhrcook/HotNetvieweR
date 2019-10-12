@@ -15,6 +15,7 @@ navbar:
     right:
     - news
     - github
+    - website
     - twitter
   components:
     home:
@@ -29,11 +30,14 @@ navbar:
       - text: HotNet2 Setup and Example
         href: articles/HotNet2-setup-and-example.html
     news:
-      text: Versions
+      text: News
       href: news/index.html
     github:
       icon: fa-github fa-lg
-      href: https://github.com/jhrcook/ggasym
+      href: https://github.com/jhrcook/HotNetvieweR
+    website:
+      icon: fas fa-user
+      href: https://joshuacook.netlify.com
     twitter:
       icon: fab fa-twitter fa-lg
       href: https://twitter.com/JoshDoesa
