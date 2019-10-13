@@ -19,7 +19,14 @@ Suggests:
     knitr,
     rmarkdown,
     covr,
-    spelling
+    spelling,
+    testthat (>= 2.1.0)
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1
 Language: en-US
+Imports: 
+    glue,
+    readr,
+    tibble,
+    dplyr,
+    rlang

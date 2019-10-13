@@ -1,0 +1,33 @@
+---
+title: "Using HotNetVieweR to read in HotNet2 results"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{standard-use}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(HotNetvieweR)
+```
+
+This vignette demonstrates the most basic use of 'HotNetVieweR' to read in the results of HotNet2.
+
+The data used for this example was made in the "HotNet2 Setup and Example" vignette.
+It is *not* included as external data in this package due to limits o.
+
+```{r}
+data_dir <- system.file("extdata", "output_simple", package = "HotNetViewer")
+print(data_dir)
+```
+```{r}
+list.files(data_dir, all.files = TRUE, recursive = TRUE)
+```
+

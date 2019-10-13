@@ -1,0 +1,115 @@
+{
+    "consensus": [
+        {
+            "core": [
+                "gene8", 
+                "gene9", 
+                "gene1", 
+                "gene2", 
+                "gene3", 
+                "gene4", 
+                "gene5", 
+                "gene6", 
+                "gene7", 
+                "gene23", 
+                "gene22", 
+                "gene21", 
+                "gene19", 
+                "gene18", 
+                "gene25", 
+                "gene24", 
+                "gene20"
+            ], 
+            "expansion": []
+        }, 
+        {
+            "core": [
+                "gene10", 
+                "gene11"
+            ], 
+            "expansion": []
+        }
+    ], 
+    "deltas": [
+        1.024861412588507e-05, 
+        0.03640584065578878, 
+        5.711058292945381e-06, 
+        0.051236389204859734
+    ], 
+    "linkers": [], 
+    "params": {
+        "consensus_permutations": 0, 
+        "delta": 0.05293082073330879, 
+        "deltas": [], 
+        "display_name_file": null, 
+        "display_score_file": null, 
+        "heat_files": [
+            "example_run/heatfiles/mutations_heatfile.json", 
+            "example_run/heatfiles/scores_heatfile.json"
+        ], 
+        "heat_name": "scoresheat", 
+        "heat_permutations": 100, 
+        "min_cc_size": 2, 
+        "network_files": [
+            "example_run/network1/network1_ppr_0.5.h5", 
+            "example_run/network2/network2_ppr_0.5.h5"
+        ], 
+        "network_name": "network2", 
+        "network_permutations": 100, 
+        "num_cores": 1, 
+        "output_directory": "example_run/output_consensus", 
+        "output_hierarchy": false, 
+        "permuted_network_paths": [
+            "example_run/network1/permuted/network1_ppr_0.5_##NUM##.h5", 
+            "example_run/network2/permuted/network2_ppr_0.5_##NUM##.h5"
+        ], 
+        "verbose": 1
+    }, 
+    "stats": {
+        "2": {
+            "expected": 0.0, 
+            "observed": 2, 
+            "pval": 1.0
+        }, 
+        "3": {
+            "expected": 0.0, 
+            "observed": 1, 
+            "pval": 1.0
+        }, 
+        "4": {
+            "expected": 0.0, 
+            "observed": 1, 
+            "pval": 1.0
+        }, 
+        "5": {
+            "expected": 0.0, 
+            "observed": 1, 
+            "pval": 1.0
+        }, 
+        "6": {
+            "expected": 0.0, 
+            "observed": 1, 
+            "pval": 1.0
+        }, 
+        "7": {
+            "expected": 0.0, 
+            "observed": 1, 
+            "pval": 1.0
+        }, 
+        "8": {
+            "expected": 0.0, 
+            "observed": 1, 
+            "pval": 1.0
+        }, 
+        "9": {
+            "expected": 0.0, 
+            "observed": 1, 
+            "pval": 1.0
+        }, 
+        "10": {
+            "expected": 0.0, 
+            "observed": 1, 
+            "pval": 1.0
+        }
+    }
+}

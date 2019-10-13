@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • HotNetvieweR</title>
+<title>Finds the best delta for a the HotNet2 results — get_best_delta • HotNetvieweR</title>
 
 
 <!-- jquery -->
@@ -35,7 +35,10 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Finds the best delta for a the HotNet2 results — get_best_delta" />
+<meta property="og:description" content="Briefly, ... (explain how the best delta is chosen). More is explained in the
+vignette &quot;...&quot;." />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -54,7 +57,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -128,60 +131,45 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Finds the best delta for a the HotNet2 results</h1>
+    
+    <div class="hidden name"><code>get_best_delta.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Briefly, ... (explain how the best delta is chosen). More is explained in the
+vignette "...".</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>get_best_delta</span>(<span class='no'>delta_df</span>, <span class='kw'>pval_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.05</span>)</pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="conforms_to_delta_fileorg.html">conforms_to_delta_fileorg()</a></code> </p>
-        </td>
-        <td><p>Checks if a directory for a delta value conforms to the expected output</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_best_delta.html">get_best_delta()</a></code> </p>
-        </td>
-        <td><p>Finds the best delta for a the HotNet2 results</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_hn2_subnetworks.html">get_hn2_subnetworks()</a></code> </p>
-        </td>
-        <td><p>Read in HotNet2 results</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_k_for_delta.html">get_k_for_delta()</a></code> </p>
-        </td>
-        <td><p>Read in the "k" values for a delta directory</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>pval_cutoff</th>
+      <td><p>The maximum p-value to use for statistical significance.</p></td>
+    </tr>
+    <tr>
+      <th>delta_tib</th>
+      <td><p>A data frame (or tibble) with the columns ... for all of the delta values.</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>The best delta value to use or <code>NA</code> if none can be used.</p>
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
+      <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
     </ul>
+
   </div>
 </div>
 

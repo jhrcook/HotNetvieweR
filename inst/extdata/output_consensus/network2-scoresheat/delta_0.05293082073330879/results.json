@@ -1,0 +1,106 @@
+{
+    "statistics": {
+        "2": {
+            "expected": 2.41, 
+            "pval": 0.48, 
+            "observed": 3
+        }, 
+        "3": {
+            "expected": 1.71, 
+            "pval": 0.61, 
+            "observed": 2
+        }, 
+        "4": {
+            "expected": 1.06, 
+            "pval": 0.05, 
+            "observed": 2
+        }, 
+        "5": {
+            "expected": 1.03, 
+            "pval": 0.03, 
+            "observed": 2
+        }, 
+        "6": {
+            "expected": 1.01, 
+            "pval": 1.0, 
+            "observed": 1
+        }, 
+        "7": {
+            "expected": 1.01, 
+            "pval": 1.0, 
+            "observed": 1
+        }, 
+        "8": {
+            "expected": 1.0, 
+            "pval": 1.0, 
+            "observed": 1
+        }, 
+        "9": {
+            "expected": 1.0, 
+            "pval": 1.0, 
+            "observed": 1
+        }, 
+        "10": {
+            "expected": 0.9, 
+            "pval": 1.0, 
+            "observed": 0
+        }
+    }, 
+    "components": [
+        [
+            "gene18", 
+            "gene19", 
+            "gene20", 
+            "gene21", 
+            "gene22", 
+            "gene23", 
+            "gene24", 
+            "gene25", 
+            "gene7"
+        ], 
+        [
+            "gene1", 
+            "gene10", 
+            "gene11", 
+            "gene2", 
+            "gene3"
+        ], 
+        [
+            "gene5", 
+            "gene6"
+        ]
+    ], 
+    "parameters": {
+        "display_name_file": null, 
+        "display_score_file": null, 
+        "deltas": [], 
+        "verbose": 1, 
+        "heat_permutations": 100, 
+        "num_cores": 1, 
+        "network_permutations": 100, 
+        "output_directory": "example_run/output_consensus", 
+        "heat_files": [
+            "example_run/heatfiles/mutations_heatfile.json", 
+            "example_run/heatfiles/scores_heatfile.json"
+        ], 
+        "output_hierarchy": false, 
+        "consensus_permutations": 0, 
+        "delta": 0.05293082073330879, 
+        "min_cc_size": 2, 
+        "network_files": [
+            "example_run/network1/network1_ppr_0.5.h5", 
+            "example_run/network2/network2_ppr_0.5.h5"
+        ], 
+        "network_name": "network2", 
+        "permuted_network_paths": [
+            "example_run/network1/permuted/network1_ppr_0.5_##NUM##.h5", 
+            "example_run/network2/permuted/network2_ppr_0.5_##NUM##.h5"
+        ], 
+        "heat_name": "scoresheat"
+    }, 
+    "sizes": {
+        "9": 1, 
+        "2": 1, 
+        "5": 1
+    }
+}

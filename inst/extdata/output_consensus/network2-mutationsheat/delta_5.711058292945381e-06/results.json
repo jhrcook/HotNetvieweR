@@ -1,0 +1,93 @@
+{
+    "statistics": {
+        "2": {
+            "expected": 1.0, 
+            "pval": 1.0, 
+            "observed": 1
+        }, 
+        "3": {
+            "expected": 1.0, 
+            "pval": 1.0, 
+            "observed": 1
+        }, 
+        "4": {
+            "expected": 1.0, 
+            "pval": 1.0, 
+            "observed": 1
+        }, 
+        "5": {
+            "expected": 1.0, 
+            "pval": 1.0, 
+            "observed": 1
+        }, 
+        "6": {
+            "expected": 1.0, 
+            "pval": 1.0, 
+            "observed": 1
+        }, 
+        "7": {
+            "expected": 1.0, 
+            "pval": 1.0, 
+            "observed": 1
+        }, 
+        "8": {
+            "expected": 1.0, 
+            "pval": 1.0, 
+            "observed": 1
+        }, 
+        "9": {
+            "expected": 1.0, 
+            "pval": 1.0, 
+            "observed": 1
+        }, 
+        "10": {
+            "expected": 0.0, 
+            "pval": 1.0, 
+            "observed": 0
+        }
+    }, 
+    "components": [
+        [
+            "gene1", 
+            "gene2", 
+            "gene3", 
+            "gene4", 
+            "gene5", 
+            "gene6", 
+            "gene7", 
+            "gene8", 
+            "gene9"
+        ]
+    ], 
+    "parameters": {
+        "display_name_file": null, 
+        "display_score_file": null, 
+        "deltas": [], 
+        "verbose": 1, 
+        "heat_permutations": 100, 
+        "num_cores": 1, 
+        "network_permutations": 100, 
+        "output_directory": "example_run/output_consensus", 
+        "heat_files": [
+            "example_run/heatfiles/mutations_heatfile.json", 
+            "example_run/heatfiles/scores_heatfile.json"
+        ], 
+        "output_hierarchy": false, 
+        "consensus_permutations": 0, 
+        "delta": 5.711058292945381e-06, 
+        "min_cc_size": 2, 
+        "network_files": [
+            "example_run/network1/network1_ppr_0.5.h5", 
+            "example_run/network2/network2_ppr_0.5.h5"
+        ], 
+        "network_name": "network2", 
+        "permuted_network_paths": [
+            "example_run/network1/permuted/network1_ppr_0.5_##NUM##.h5", 
+            "example_run/network2/permuted/network2_ppr_0.5_##NUM##.h5"
+        ], 
+        "heat_name": "mutationsheat"
+    }, 
+    "sizes": {
+        "9": 1
+    }
+}

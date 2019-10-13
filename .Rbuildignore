@@ -11,3 +11,6 @@
 ^appveyor\.yml$
 ^codecov\.yml$
 ^LICENSE\.md$
+^data-raw$
+^inst/extdata/output_simple$
+^inst/extdata/output_consensus$

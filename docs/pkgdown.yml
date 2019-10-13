@@ -1,6 +1,5 @@
 pandoc: 2.7.3
 pkgdown: 1.4.0
 pkgdown_sha: ~
-articles:
-  HotNet2-setup-and-example: HotNet2-setup-and-example.html
+articles: []
 
